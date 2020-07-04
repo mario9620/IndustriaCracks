@@ -18,6 +18,7 @@ source ./venv/Script/activate
 ```
 pip install django
 pip install djangorestframework
+pip install django-cors-headers
 
 ```
 4. Ejecutar las migraciones
