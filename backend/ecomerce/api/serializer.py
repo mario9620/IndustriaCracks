@@ -10,7 +10,7 @@ class DirectionSerializer(serializers.ModelSerializer):
         fields = ['id', 'direction', 'relative_direction', 'date_created', 'date_updated']
 
 class AccountSerializer(serializers.ModelSerializer):
-    direction = serializers.StringRelatedField(many=True)
+    direction = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     
     class Meta: 
         model = Account
