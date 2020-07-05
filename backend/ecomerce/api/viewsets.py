@@ -1,14 +1,14 @@
 from rest_framework import viewsets
 
-from .models import Direction, User, Followers, Complaints, Currency, Category, Image, Product, Image_Product, Status, shipping_method, payment_method, Order, product_order, payment_data, Action, Log
-from .serializer import DirectionSerializer, UserSerializer, FollowerSerializer, ComplaintSerializer, CurrencySerializer, CategorySerializer, ImageSerializer, ProductSerializer, Image_ProductSerializer, StatusSerializer, ShippingMethodSerializer, paymentMethodSerializer, OrderSerializer, Product_OrderSerializer, Payment_dataSerializer, ActionSerializer, LogSerializer
+from .models import Direction, Account, Followers, Complaints, Currency, Category, Image, Product, Image_Product, Status, Shipping_method, Payment_method, Order, Product_order, Payment_data, Action, Log, User_puntuation
+from .serializer import DirectionSerializer, AccountSerializer, FollowerSerializer, ComplaintSerializer, CurrencySerializer, CategorySerializer, ImageSerializer, ProductSerializer, Image_ProductSerializer, StatusSerializer, ShippingMethodSerializer, paymentMethodSerializer, OrderSerializer, Product_OrderSerializer, Payment_dataSerializer, ActionSerializer, LogSerializer, User_puntuationSerializer
 
 class DirectionViewSet(viewsets.ModelViewSet):
     queryset = Direction.objects.all()
     serializer_class = DirectionSerializer
 
-#Register user
-class UserViewSet(viewsets.ModelViewSet):
+#Register Account
+class AccountViewSet(viewsets.ModelViewSet):
     """
     Quería hacerlo con los métodos pero parece que con esas dos lineas 
     Django ya hace el crud
@@ -24,8 +24,8 @@ class UserViewSet(viewsets.ModelViewSet):
     def destroy(self, request, pk=None):
         pass
     """
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+    queryset = Account.objects.all()
+    serializer_class = AccountSerializer
 
 
 class FollowersViewSet(viewsets.ModelViewSet):
@@ -61,11 +61,11 @@ class StatusViewSet(viewsets.ModelViewSet):
     serializer_class = StatusSerializer
 
 class ShippingMethodViewSet(viewsets.ModelViewSet):
-    queryset = shipping_method.objects.all()
+    queryset = Shipping_method.objects.all()
     serializer_class = ShippingMethodSerializer
 
 class PaymentMethodViewSet(viewsets.ModelViewSet):
-    queryset = payment_method.objects.all()
+    queryset = Payment_method.objects.all()
     serializer_class = paymentMethodSerializer
 
 class OrderViewSet(viewsets.ModelViewSet):
@@ -73,11 +73,11 @@ class OrderViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
 
 class Product_OrderViewSet(viewsets.ModelViewSet):
-    queryset = product_order.objects.all()
+    queryset = Product_order.objects.all()
     serializer_class = Product_OrderSerializer
 
 class PaymentDataViewSet(viewsets.ModelViewSet):
-    queryset = payment_data.objects.all()
+    queryset = Payment_data.objects.all()
     serializer_class = Payment_dataSerializer
 
 class ActionViewSet(viewsets.ModelViewSet):
@@ -87,3 +87,7 @@ class ActionViewSet(viewsets.ModelViewSet):
 class LogViewSet(viewsets.ModelViewSet):
     queryset = Log.objects.all()
     serializer_class = LogSerializer
+
+class User_puntuationViewSet(viewsets.ModelViewSet):
+    queryset = User_puntuation.objects.all()
+    serializer_class = User_puntuationSerializer

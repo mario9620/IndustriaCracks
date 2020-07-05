@@ -1,48 +1,176 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 # Create your models here.
-class Direction(models.Model):
-    id = models.AutoField(primary_key=True)
-    location = models.TextField()
-    relative_location = models.TextField()
+
+import uuid
+
+def images_directory_path(instance, filename):
+    return '/'.join(['profile_img', str(uuid.uuid4().hex + "." + filename.split(".")[-1])])
+
+class Image(models.Model):
+    img_route= models.ImageField(upload_to=images_directory_path, verbose_name="Ruta de la Imagen")
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
+class Direction(models.Model):
+    direction = models.CharField(max_length=60, null=True, blank=True)
+    relative = models.ForeignKey('self', on_delete=models.CASCADE, related_name="relative_direction", null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_updated = models.DateTimeField(auto_now=True)
 
-class User(models.Model):
-    id = models.AutoField(primary_key=True)
-    first_name = models.CharField(max_length=60)
-    last_name = models.CharField(max_length=60)
-    email = models.CharField(max_length=100)
-    birth_date = models.DateTimeField(auto_now=True)
-    is_admin = models.BooleanField()
-    is_superuser = models.BooleanField()
-    user_image = models.CharField(max_length=255)
-    cover_image = models.CharField(max_length=255)
-    join_date = models.DateTimeField(auto_now_add=True)
-    direction_id = models.ForeignKey(Direction, related_name='directions', on_delete=models.CASCADE)
+class AccountManager(BaseUserManager):
+    def create_user(self, email, first_name, last_name, phone_number, birth_date, password=None):
+        if not email:
+            raise ValueError("Debes ingresar tu correo para registrarte")
+        if not first_name:
+            raise ValueError("Debes ingresar tu nombre para registrarte")
+        if not last_name:
+            raise ValueError("Debes ingresar tu apellido para registrarte")
+        if not phone_number:
+            raise ValueError("Debes ingresar número de teléfono para registrarte")
+        if not birth_date:
+            raise ValueError("Debes ingresar tu fecha de nacimiento para registrarte")
+        user = self.model(
+            email = self.normalize_email(email),
+            first_name = first_name,
+            last_name = last_name,
+            phone_number = phone_number,
+            birth_date = birth_date,
+            user_img = Image.objects.get(pk = 1),
+            cover_img = Image.objects.get(pk = 1)
+        )
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, first_name, last_name, phone_number, birth_date, password=None):
+        user = self.create_user(
+            email = self.normalize_email(email),
+            first_name = first_name,
+            last_name = last_name,
+            phone_number = phone_number,
+            birth_date = birth_date,
+            password=password
+        )
+        user.is_admin = True
+        user.is_staff = True
+        user.is_superuser = True
+        user.is_active = True
+        user.save(using=self._db)
+        return user
+
+
+class Account(AbstractBaseUser):
+    email = models.EmailField(
+        verbose_name='Correo electrónico',
+        max_length=100,
+        unique=True
+    )
+    first_name = models.CharField(
+        verbose_name='Nombre',
+        max_length=50,
+    )
+    last_name = models.CharField(
+        verbose_name='Apellido',
+        max_length=50,
+    )
+    phone_number = models.CharField(
+        verbose_name='Número de teléfono',
+        max_length=20,
+    )
+    address = models.TextField(
+        verbose_name='Dirección',
+        null=True
+    )
+    birth_date = models.DateField(
+        verbose_name='Fecha de nacimiento'
+    )
+    date_joined = models.DateTimeField(
+        verbose_name='Fecha de registro',
+        auto_now_add=True
+    )
+    last_login = models.DateTimeField(
+        verbose_name='Último acceso',
+        auto_now=True
+    )
+    is_admin = models.BooleanField(
+        default=False
+    )
+    is_staff = models.BooleanField(
+        default=False
+    )
+    is_active = models.BooleanField(
+        default=False
+    )
+    is_superuser = models.BooleanField(
+        default=True
+    )
+    user_img= models.ForeignKey(
+        Image,
+        null=True,
+        on_delete=models.CASCADE,
+        related_name="profile_img",
+        default="1"
+    )
+    cover_img= models.ForeignKey(
+        Image, 
+        null=True,
+        on_delete=models.CASCADE,
+        related_name="cover_img",
+        default="1"
+    )
+    direction = models.ForeignKey(
+        Direction, 
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+
+    class Meta():
+        verbose_name= "Cuenta"
+        verbose_name_plural= "Cuentas"
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['first_name','last_name','phone_number','birth_date']
+
+    objects = AccountManager()
 
     def __str__(self):
-        return f'name: {self.first_name}'
+        return self.email
+    
+    def has_perm(self, perm, obj=None):
+        return self.is_admin
+    
+    def has_module_perms(self, app_label):
+        return True
+
+    def get_full_name(self):
+        return self.first_name + ' ' + self.last_name
+
 
 class Followers(models.Model):
-    id = models.AutoField(primary_key=True)
-    follower_id = models.ForeignKey(User, related_name='followers', on_delete=models.CASCADE)
-    followed_id = models.ForeignKey(User, related_name='followed', on_delete=models.CASCADE)
+    follower_id = models.ForeignKey(Account, related_name='followers', on_delete=models.CASCADE)
+    followed_id = models.ForeignKey(Account, related_name='followed', on_delete=models.CASCADE)
+    follow_date = models.DateTimeField(auto_now_add=True)
+
+class User_puntuation(models.Model):
+    evaluator_id = models.ForeignKey(Account, related_name='evaluator', on_delete=models.CASCADE)
+    evaluated_id = models.ForeignKey(Account, related_name='evaluated', on_delete=models.CASCADE)
     follow_date = models.DateTimeField(auto_now_add=True)
     puntuation = models.IntegerField()
-
+    
 class Complaints(models.Model):
-     id = models.AutoField(primary_key=True)
+
      date = models.DateTimeField(auto_now_add=True)
-     denounced_user_id = models.ForeignKey(User, related_name='denounced_user', on_delete=models.CASCADE)
-     accuser_user_id = models.ForeignKey(User, related_name='accuser_user', on_delete=models.CASCADE)
+     denounced_user_id = models.ForeignKey(Account, related_name='denounced_user', on_delete=models.CASCADE)
+     accuser_user_id = models.ForeignKey(Account, related_name='accuser_user', on_delete=models.CASCADE)
 
 
 class Currency(models.Model):
-    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=200)
+    sign= models.CharField(max_length=2, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
     
@@ -50,7 +178,6 @@ class Currency(models.Model):
         return f"Currency: {self.name}"
 
 class Category(models.Model):
-    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
@@ -58,19 +185,12 @@ class Category(models.Model):
     def __str__(self):
         return f"Category: {self.name}"
 
-class Image(models.Model):
-    id = models.AutoField(primary_key=True)
-    img_route = models.CharField(max_length=255)
-    date_created = models.DateTimeField(auto_now_add=True)
-    date_updated = models.DateTimeField(auto_now=True)
-
 class Product(models.Model):
-    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=255)
     currency_id = models.ForeignKey(Currency, related_name='currency_product', on_delete=models.CASCADE)
     category_id = models.ForeignKey(Category, related_name='category_product', on_delete=models.CASCADE)
-    user_id = models.ForeignKey(User, related_name='user_owner', on_delete=models.CASCADE)
+    user_id = models.ForeignKey(Account, related_name='user_owner', on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
     
@@ -82,7 +202,6 @@ class Image_Product(models.Model):
     product_id = models.ForeignKey(Product, related_name='products_images', on_delete=models.CASCADE)
 
 class Status(models.Model):
-    id = models.AutoField(primary_key=True)
     description = models.CharField(max_length=50)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
@@ -90,8 +209,7 @@ class Status(models.Model):
     def __str__(self):
         return f"Status of Order: {self.description}"
 
-class shipping_method(models.Model):
-    id = models.AutoField(primary_key=True)
+class Shipping_method(models.Model):
     method_description = models.CharField(max_length=200)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
@@ -99,50 +217,45 @@ class shipping_method(models.Model):
     def __str__(self):
         return f"Shipping method: {self.method_description}"
 
-class payment_method(models.Model):
-    id = models.AutoField(primary_key=True)
+class Payment_method(models.Model):
     description = models.CharField(max_length=100)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
 
 class Order(models.Model):
-    id = models.AutoField(primary_key=True)
     status_id = models.ForeignKey(Status, related_name='status_order', on_delete=models.CASCADE)
     subtotal = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.IntegerField()
     isv = models.DecimalField(max_digits=10, decimal_places=2)
     total = models.DecimalField(max_digits=10, decimal_places=2)
     direction_id = models.ForeignKey(Direction, related_name='direction_order', on_delete= models.CASCADE)
-    shipping_method_id = models.ForeignKey(shipping_method, related_name='shipping_method_order', on_delete= models.CASCADE)
-    payment_method_id = models.ForeignKey(payment_method, related_name='payment_method_order', on_delete=models.CASCADE)
+    shipping_method_id = models.ForeignKey(Shipping_method, related_name='Shipping_method_order', on_delete= models.CASCADE)
+    payment_method_id = models.ForeignKey(Payment_method, related_name='Payment_method_order', on_delete=models.CASCADE)
 
 
-class product_order(models.Model):
+class Product_order(models.Model):
     product_id = models.ForeignKey(Product, related_name='products', on_delete=models.CASCADE)
     order_id = models.ForeignKey(Order, related_name='orders', on_delete=models.CASCADE)
 
-class payment_data(models.Model):
-    id = models.AutoField(primary_key=True)
+class Payment_data(models.Model):
     username = models.CharField(max_length=200)
     credit_card_number = models.BigIntegerField()
     expiration_date = models.DateTimeField(auto_now=True)
     cvv = models.IntegerField()
-    payment_method_id = models.ForeignKey(payment_method, related_name='payment_method', on_delete=models.CASCADE)
-    user_id = models.ForeignKey(User, related_name='user_payment_data', on_delete=models.CASCADE)
+    payment_method_id = models.ForeignKey(Payment_method, related_name='Payment_method', on_delete=models.CASCADE)
+    user_id = models.ForeignKey(Account, related_name='user_payment_data', on_delete=models.CASCADE)
     date_joined = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
 class Action(models.Model):
-    id = models.AutoField(primary_key=True)
     crud_type = models.CharField(max_length=50)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
 class Log(models.Model):
-    id = models.AutoField(primary_key=True)
     action = models.CharField(max_length=200)
     description = models.CharField(max_length=250)
-    user_id = models.ForeignKey(User, related_name='user_log', on_delete=models.CASCADE)
+    user_id = models.ForeignKey(Account, related_name='user_log', on_delete=models.CASCADE)
     action_id = models.ForeignKey(Action, related_name='action_log', on_delete=models.CASCADE)
 

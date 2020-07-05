@@ -1,12 +1,12 @@
 from rest_framework import routers 
 
-from .viewsets import DirectionViewSet, UserViewSet, FollowersViewSet, ComplaintsViewSet, CurrencyViewSet, CategoryViewSet, ImageViewSet, ProductViewSet, ImageProductViewSet, StatusViewSet, ShippingMethodViewSet, PaymentMethodViewSet, OrderViewSet, Product_OrderViewSet, PaymentDataViewSet, ActionViewSet, LogViewSet
+from .viewsets import DirectionViewSet, AccountViewSet, FollowersViewSet, ComplaintsViewSet, CurrencyViewSet, CategoryViewSet, ImageViewSet, ProductViewSet, ImageProductViewSet, StatusViewSet, ShippingMethodViewSet, PaymentMethodViewSet, OrderViewSet, Product_OrderViewSet, PaymentDataViewSet, ActionViewSet, LogViewSet
 
 #Las rutas de tablas intermedias no las agrege
 
 router = routers.SimpleRouter()
 router.register('direction', DirectionViewSet, basename='direction')
-router.register('users', UserViewSet, basename='users')
+router.register('Accounts', AccountViewSet, basename='Accounts')
 router.register('followers', FollowersViewSet, basename='followers')
 router.register('complaints', ComplaintsViewSet, basename='complaints')
 router.register('currencies', CurrencyViewSet, basename='currencies')
