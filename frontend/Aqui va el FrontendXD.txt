@@ -1,16 +1,2 @@
-# IndustriaCracks
 
-#Para correr el proyecto de angular
-
-
-1. Instalar las dependencias de nodejs
-```
-npm install
-
-```
-2. Ejecutarlo
-```
-ng serve
-
-```
 
