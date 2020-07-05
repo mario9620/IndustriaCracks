@@ -11,9 +11,10 @@ class DirectionSerializer(serializers.ModelSerializer):
 
 class AccountSerializer(serializers.ModelSerializer):
     direction = serializers.StringRelatedField(many=True)
+    
     class Meta: 
         model = Account
-        fields = '__all__'
+        fields = ['id', 'direction', 'password','email','first_name','last_name','phone_number','address','birth_date', 'date_joined','last_login','is_admin','is_staff','is_active','is_superuser','user_img','cover_img']
 
 class FollowerSerializer(serializers.ModelSerializer):
     follower = serializers.StringRelatedField(many=True)
