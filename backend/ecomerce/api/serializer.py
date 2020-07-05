@@ -4,9 +4,10 @@ from .models import Direction, Account, Followers, Complaints, Currency, Categor
 
 
 class DirectionSerializer(serializers.ModelSerializer):
+    relative_direction = serializers.StringRelatedField(many=True)
     class Meta:
         model = Direction
-        fields = '__all__'
+        fields = ['id', 'direction', 'relative_direction', 'date_created', 'date_updated']
 
 class AccountSerializer(serializers.ModelSerializer):
     direction = serializers.StringRelatedField(many=True)

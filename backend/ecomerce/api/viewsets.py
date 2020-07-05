@@ -9,21 +9,7 @@ class DirectionViewSet(viewsets.ModelViewSet):
 
 #Register Account
 class AccountViewSet(viewsets.ModelViewSet):
-    """
-    Quería hacerlo con los métodos pero parece que con esas dos lineas 
-    Django ya hace el crud
-    @action(details=True, methods=['post'])
-    def create(self, request):
-        pass
     
-    @action(details=True, methods=['put'])
-    def updated(self, request, pk=None):
-        pass
-    
-    @action(details=True, methods=['delete'])
-    def destroy(self, request, pk=None):
-        pass
-    """
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
 
