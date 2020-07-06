@@ -20,6 +20,9 @@ class Direction(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.direction
+
 class AccountManager(BaseUserManager):
     def create_user(self, email, first_name, last_name, phone_number, birth_date, password=None):
         if not email:
