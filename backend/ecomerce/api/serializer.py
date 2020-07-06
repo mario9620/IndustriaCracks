@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Direction, Account, Followers, Complaints, Currency, Category, Image, Product, Image_Product, Status, Shipping_method, Payment_method, Order, Product_order, Payment_data, Action, Log, User_puntuation
+from .models import Direction, Account, Followers, Complaints, Currency, Category, Image, Product, Image_Product, Status, Shipping_method, Payment_method, Order, Product_order, Payment_data, Action, Log, Puntuation
 
 
 class DirectionSerializer(serializers.ModelSerializer):
@@ -114,10 +114,10 @@ class LogSerializer(serializers.ModelSerializer):
         model = Log
         fields = ['id', 'action','description','Account','actions']
 
-class  User_puntuationSerializer(serializers.ModelSerializer):
+class  PuntuationSerializer(serializers.ModelSerializer):
     AccountSerializer = serializers.StringRelatedField(many=True)
 
     class Meta:
-        model = User_puntuation
+        model = Puntuation
         fields = '__all__'
 

@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
-from .models import Direction, Account, Followers, Complaints, Currency, Category, Image, Product, Image_Product, Status, Shipping_method, Payment_method, Order, Product_order, Payment_data, Action, Log, User_puntuation
-from .serializer import DirectionSerializer, AccountSerializer, FollowerSerializer, ComplaintSerializer, CurrencySerializer, CategorySerializer, ImageSerializer, ProductSerializer, Image_ProductSerializer, StatusSerializer, ShippingMethodSerializer, paymentMethodSerializer, OrderSerializer, Product_OrderSerializer, Payment_dataSerializer, ActionSerializer, LogSerializer, User_puntuationSerializer
+from .models import Direction, Account, Followers, Complaints, Currency, Category, Image, Product, Image_Product, Status, Shipping_method, Payment_method, Order, Product_order, Payment_data, Action, Log, Puntuation
+from .serializer import DirectionSerializer, AccountSerializer, FollowerSerializer, ComplaintSerializer, CurrencySerializer, CategorySerializer, ImageSerializer, ProductSerializer, Image_ProductSerializer, StatusSerializer, ShippingMethodSerializer, paymentMethodSerializer, OrderSerializer, Product_OrderSerializer, Payment_dataSerializer, ActionSerializer, LogSerializer, PuntuationSerializer
 
 class DirectionViewSet(viewsets.ModelViewSet):
     queryset = Direction.objects.all()
@@ -74,6 +74,6 @@ class LogViewSet(viewsets.ModelViewSet):
     queryset = Log.objects.all()
     serializer_class = LogSerializer
 
-class User_puntuationViewSet(viewsets.ModelViewSet):
-    queryset = User_puntuation.objects.all()
-    serializer_class = User_puntuationSerializer
+class PuntuationViewSet(viewsets.ModelViewSet):
+    queryset = Puntuation.objects.all()
+    serializer_class = PuntuationSerializer
