@@ -21,7 +21,7 @@ class Direction(models.Model):
     date_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.direction
+        return str(self.direction)
 
 class AccountManager(BaseUserManager):
     def create_user(self, email, first_name, last_name, phone_number, birth_date, password=None):
