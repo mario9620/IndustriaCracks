@@ -1,13 +1,20 @@
 from django.urls import path
 from .views import DirectionGenericView, AccountGenericView, ImageGenericView
 
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register('direction', DirectionGenericView, basename='direction')
+router.register('account', AccountGenericView, basename='account')
+router.register('image', ImageGenericView, basename='image')
+
+
+from django.urls import path, include
+
 urlpatterns = [
-    path('Direction/<str:id>/', DirectionGenericView.as_view()),
-    path('Direction/', DirectionGenericView.as_view()),
-    path('Account/<str:id>/', AccountGenericView.as_view()),
-    path('Account/',AccountGenericView.as_view()),
-    path('Image/<str:id>/', ImageGenericView.as_view()),
-    path('Image/',ImageGenericView.as_view()),
-    
+    path('viewset/', include(router.urls)),
 ]
+
+
+
 
