@@ -8,7 +8,7 @@ class DirectionSerializer(serializers.ModelSerializer):
         fields= '__all__'
 
 class AccountSerializer(serializers.ModelSerializer):
-    direction = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    direction = serializers.PrimaryKeyRelatedField(read_only=True)
     class Meta:
         model = Account
         fields= '__all__'

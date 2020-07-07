@@ -83,10 +83,7 @@ class Account(AbstractBaseUser):
         verbose_name='Número de teléfono',
         max_length=20,
     )
-    address = models.TextField(
-        verbose_name='Dirección',
-        null=True
-    )
+    
     birth_date = models.DateField(
         verbose_name='Fecha de nacimiento'
     )
