@@ -160,7 +160,7 @@ class Puntuation(models.Model):
     evaluator_user_id = models.ForeignKey(Account, related_name="evaluator_user_id", on_delete=models.CASCADE, verbose_name='Evaluador')
     points = models.IntegerField(verbose_name='Puntos')
     comment = models.TextField(null=True, verbose_name='Comentario')
-    follow_date = models.DateTimeField(default=now)
+    follow_date = models.DateTimeField(auto_now_add=True)
 
 #muestra los usuarios que fueron evaluados 
     def __str__(self):
@@ -177,9 +177,9 @@ class Puntuation(models.Model):
 class Complaints(models.Model):
     accuser_user_id = models.ForeignKey(Account, related_name="accuser_user_id", on_delete=models.CASCADE, verbose_name='Denunciante')
     denounced_user_id = models.ForeignKey(Account, related_name="denounced_user_id", null=True, on_delete=models.CASCADE, verbose_name='Denunciado')
-    problem = models.CharField(max_length=20,null=True, blank=False, verbose_name='Problema')
+    problem = models.CharField(max_length=50,null=True, blank=False, verbose_name='Problema')
     comment = models.TextField(null=True, verbose_name='Comentario')
-    published = models.DateTimeField(verbose_name="Fecha de publicacion", default=now)
+    published = models.DateTimeField(verbose_name="Fecha de publicacion", auto_now_add=True)
 
     class Meta():
         verbose_name = "Complaint"
@@ -284,7 +284,6 @@ class Action(models.Model):
     date_updated = models.DateTimeField(auto_now=True)
 
 class Log(models.Model):
-    action = models.CharField(max_length=200)
     description = models.CharField(max_length=250)
     user_id = models.ForeignKey(Account, related_name='user_log', on_delete=models.CASCADE)
     action_id = models.ForeignKey(Action, related_name='action_log', on_delete=models.CASCADE)

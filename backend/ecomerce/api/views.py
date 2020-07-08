@@ -1,10 +1,10 @@
 from django.shortcuts import render
 
 # Create your views here.
-from .models import Account, Direction,Image,Followers, Puntuation, Complaints, Currency, Category,Product,Image_Product, Status, Shipping_method,Payment_data,Order,Product_order,Log
+from .models import Account, Direction,Image,Followers, Puntuation, Complaints, Currency, Category,Product,Image_Product, Status, Shipping_method, Payment_method ,Payment_data,Order,Product_order,Log, Action
 
 from rest_framework import serializers
-from .serializer import DirectionSerializer, AccountSerializer, ImageSerializer
+from .serializer import DirectionSerializer, AccountSerializer, ImageSerializer, FollowersSerializar, PuntuationSerializer, ComplaintsSerializaer, CurrencySerializaer, CategorySerializer, ProductSerializer, Image_ProductSerializer, StatusSerializer, ShipingSerializer, Payment_methodSerializer, Payment_dataSerializer, OrderSerializer, ProductOrderSerializer, LogSerializer, ActionSerializer
 
 from rest_framework import viewsets
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, ListModelMixin 
@@ -55,6 +55,327 @@ class AccountGenericView(viewsets.GenericViewSet, CreateModelMixin, RetrieveMode
 class ImageGenericView(viewsets.GenericViewSet, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, ListModelMixin):
     serializer_class = ImageSerializer
     queryset = Image.objects.all()
+    lookup_field = "id"
+
+    def get(self, request, id=None):
+
+        if not (id):
+            return self.list(request)
+        else:
+            return self.retrieve(request)
+
+    def post(self, request,id=None):
+        return self.create(request)
+
+    def put(self, request, id= None):
+        return self.update(request, id)
+
+    def delete(self, request, id = None):
+        return self.destroy(request, id)
+
+class FollowGenericView(viewsets.GenericViewSet, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, ListModelMixin):
+    serializer_class = FollowersSerializar
+    queryset = Followers.objects.all()
+    lookup_field = "id"
+
+    def get(self, request, id=None):
+
+        if not (id):
+            return self.list(request)
+        else:
+            return self.retrieve(request)
+
+    def post(self, request,id=None):
+        return self.create(request)
+
+    def put(self, request, id= None):
+        return self.update(request, id)
+
+    def delete(self, request, id = None):
+        return self.destroy(request, id)
+
+class PuntuationGenericView(viewsets.GenericViewSet, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, ListModelMixin):
+    serializer_class = PuntuationSerializer
+    queryset = Puntuation.objects.all()
+    lookup_field = "id"
+
+    def get(self, request, id=None):
+
+        if not (id):
+            return self.list(request)
+        else:
+            return self.retrieve(request)
+
+    def post(self, request,id=None):
+        return self.create(request)
+
+    def put(self, request, id= None):
+        return self.update(request, id)
+
+    def delete(self, request, id = None):
+        return self.destroy(request, id)
+
+class ComplaintsGenericView(viewsets.GenericViewSet, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, ListModelMixin):
+    serializer_class = ComplaintsSerializaer
+    queryset = Complaints.objects.all()
+    lookup_field = "id"
+
+    def get(self, request, id=None):
+
+        if not (id):
+            return self.list(request)
+        else:
+            return self.retrieve(request)
+
+    def post(self, request,id=None):
+        return self.create(request)
+
+    def put(self, request, id= None):
+        return self.update(request, id)
+
+    def delete(self, request, id = None):
+        return self.destroy(request, id)
+
+
+class CurrencyGenericView(viewsets.GenericViewSet, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, ListModelMixin):
+    serializer_class = CurrencySerializaer
+    queryset = Currency.objects.all()
+    lookup_field = "id"
+
+    def get(self, request, id=None):
+
+        if not (id):
+            return self.list(request)
+        else:
+            return self.retrieve(request)
+
+    def post(self, request,id=None):
+        return self.create(request)
+
+    def put(self, request, id= None):
+        return self.update(request, id)
+
+    def delete(self, request, id = None):
+        return self.destroy(request, id)
+
+
+class CategoryGenericView(viewsets.GenericViewSet, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, ListModelMixin):
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
+    lookup_field = "id"
+
+    def get(self, request, id=None):
+
+        if not (id):
+            return self.list(request)
+        else:
+            return self.retrieve(request)
+
+    def post(self, request,id=None):
+        return self.create(request)
+
+    def put(self, request, id= None):
+        return self.update(request, id)
+
+    def delete(self, request, id = None):
+        return self.destroy(request, id)
+
+class ProductGenericView(viewsets.GenericViewSet, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, ListModelMixin):
+    serializer_class = ProductSerializer
+    queryset = Product.objects.all()
+    lookup_field = "id"
+
+    def get(self, request, id=None):
+
+        if not (id):
+            return self.list(request)
+        else:
+            return self.retrieve(request)
+
+    def post(self, request,id=None):
+        return self.create(request)
+
+    def put(self, request, id= None):
+        return self.update(request, id)
+
+    def delete(self, request, id = None):
+        return self.destroy(request, id)
+
+class Image_productGenericView(viewsets.GenericViewSet, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, ListModelMixin):
+    serializer_class = Image_ProductSerializer
+    queryset = Image_Product.objects.all()
+    lookup_field = "id"
+
+    def get(self, request, id=None):
+
+        if not (id):
+            return self.list(request)
+        else:
+            return self.retrieve(request)
+
+    def post(self, request,id=None):
+        return self.create(request)
+
+    def put(self, request, id= None):
+        return self.update(request, id)
+
+    def delete(self, request, id = None):
+        return self.destroy(request, id)
+
+
+class StatusGenericView(viewsets.GenericViewSet, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, ListModelMixin):
+    serializer_class = StatusSerializer
+    queryset = Status.objects.all()
+    lookup_field = "id"
+
+    def get(self, request, id=None):
+
+        if not (id):
+            return self.list(request)
+        else:
+            return self.retrieve(request)
+
+    def post(self, request,id=None):
+        return self.create(request)
+
+    def put(self, request, id= None):
+        return self.update(request, id)
+
+    def delete(self, request, id = None):
+        return self.destroy(request, id)
+
+
+class ShipingGenericView(viewsets.GenericViewSet, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, ListModelMixin):
+    serializer_class = ShipingSerializer
+    queryset = Shipping_method.objects.all()
+    lookup_field = "id"
+
+    def get(self, request, id=None):
+
+        if not (id):
+            return self.list(request)
+        else:
+            return self.retrieve(request)
+
+    def post(self, request,id=None):
+        return self.create(request)
+
+    def put(self, request, id= None):
+        return self.update(request, id)
+
+    def delete(self, request, id = None):
+        return self.destroy(request, id)
+
+class Payment_MethodGenericView(viewsets.GenericViewSet, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, ListModelMixin):
+    serializer_class =  Payment_methodSerializer
+    queryset = Payment_method.objects.all()
+    lookup_field = "id"
+
+    def get(self, request, id=None):
+
+        if not (id):
+            return self.list(request)
+        else:
+            return self.retrieve(request)
+
+    def post(self, request,id=None):
+        return self.create(request)
+
+    def put(self, request, id= None):
+        return self.update(request, id)
+
+    def delete(self, request, id = None):
+        return self.destroy(request, id)
+
+
+
+class Payment_dataGenericView(viewsets.GenericViewSet, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, ListModelMixin):
+    serializer_class = Payment_dataSerializer
+    queryset = Payment_data.objects.all()
+    lookup_field = "id"
+
+    def get(self, request, id=None):
+
+        if not (id):
+            return self.list(request)
+        else:
+            return self.retrieve(request)
+
+    def post(self, request,id=None):
+        return self.create(request)
+
+    def put(self, request, id= None):
+        return self.update(request, id)
+
+    def delete(self, request, id = None):
+        return self.destroy(request, id)
+
+class OrderGenericView(viewsets.GenericViewSet, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, ListModelMixin):
+    serializer_class = OrderSerializer
+    queryset = Order.objects.all()
+    lookup_field = "id"
+
+    def get(self, request, id=None):
+
+        if not (id):
+            return self.list(request)
+        else:
+            return self.retrieve(request)
+
+    def post(self, request,id=None):
+        return self.create(request)
+
+    def put(self, request, id= None):
+        return self.update(request, id)
+
+    def delete(self, request, id = None):
+        return self.destroy(request, id)
+
+class Product_orderGenericView(viewsets.GenericViewSet, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, ListModelMixin):
+    serializer_class = ProductOrderSerializer
+    queryset = Product_order.objects.all()
+    lookup_field = "id"
+
+    def get(self, request, id=None):
+
+        if not (id):
+            return self.list(request)
+        else:
+            return self.retrieve(request)
+
+    def post(self, request,id=None):
+        return self.create(request)
+
+    def put(self, request, id= None):
+        return self.update(request, id)
+
+    def delete(self, request, id = None):
+        return self.destroy(request, id)
+
+class LogGenericView(viewsets.GenericViewSet, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, ListModelMixin):
+    serializer_class = LogSerializer
+    queryset = Log.objects.all()
+    lookup_field = "id"
+
+    def get(self, request, id=None):
+
+        if not (id):
+            return self.list(request)
+        else:
+            return self.retrieve(request)
+
+    def post(self, request,id=None):
+        return self.create(request)
+
+    def put(self, request, id= None):
+        return self.update(request, id)
+
+    def delete(self, request, id = None):
+        return self.destroy(request, id)
+
+class ActionGenericView(viewsets.GenericViewSet, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, ListModelMixin):
+    serializer_class = ActionSerializer
+    queryset = Action.objects.all()
     lookup_field = "id"
 
     def get(self, request, id=None):
