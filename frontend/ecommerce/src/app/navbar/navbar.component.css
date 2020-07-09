@@ -318,3 +318,14 @@
 .slick-arrow.slick-hidden {
     display: none;
 }
+
+
+.iconos-navbar {
+  margin-right: 35px;
+}
+
+.div-perfil {
+  margin-top: -10px;
+  margin-left:-60px;
+  margin-right:5%;
+}
