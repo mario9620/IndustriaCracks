@@ -155,12 +155,20 @@ class Followers(models.Model):
     followed_id = models.ForeignKey(Account, related_name='followed', on_delete=models.CASCADE)
     follow_date = models.DateTimeField(auto_now_add=True)
 
+    class Meta():
+        unique_together =['follower_id','followed_id']
+
 class Puntuation(models.Model):
     evaluated_user_id = models.ForeignKey(Account, related_name="evaluated_user_id", null=True, on_delete=models.CASCADE, verbose_name='Evaluado')
     evaluator_user_id = models.ForeignKey(Account, related_name="evaluator_user_id", on_delete=models.CASCADE, verbose_name='Evaluador')
     points = models.IntegerField(verbose_name='Puntos')
     comment = models.TextField(null=True, verbose_name='Comentario')
     follow_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta():
+        verbose_name= "Puntuation"
+        verbose_name_plural= "Puntuations"
+        unique_together =['evaluated_user_id','evaluator_user_id']
 
 #muestra los usuarios que fueron evaluados 
     def __str__(self):
@@ -170,9 +178,7 @@ class Puntuation(models.Model):
         else:
             return self.evaluator_user_id.get_full_name()+' gave '+ str (self.points ) +' to '+ self.evaluated_user_id.get_full_name()
 
-    class Meta():
-        verbose_name= "Puntuation"
-        verbose_name_plural= "Puntuations"
+        
     
 class Complaints(models.Model):
     accuser_user_id = models.ForeignKey(Account, related_name="accuser_user_id", on_delete=models.CASCADE, verbose_name='Denunciante')
