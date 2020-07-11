@@ -1,0 +1,33 @@
+.sidenav {
+  height: 100%;
+  width: 18%;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.columnas {
+  /* border: 0.2px solid rgb(201, 201, 201); */
+  border-bottom: 1px solid rgb(218, 210, 210);
+  border-right: 1px solid rgb(218, 210, 210);
+}
+
+.descripcion {
+  position: absolute;
+  bottom: 0px;
+}
+
+.contenedor-img {
+height: 200px;
+margin-top: 10px;
+margin-bottom: 30px;
+}
+
+.estilo-img {
+
+  height: 90%;
+  /* width: 100%; */
+}
