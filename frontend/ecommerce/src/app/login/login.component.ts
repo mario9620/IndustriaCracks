@@ -9,6 +9,12 @@ export class LoginComponent implements OnInit {
 
   nombre = '';
   contrasenia = '';
+
+  inicio(){
+    if ( this.nombre === 'isaac' || this.contrasenia === '1234'){
+      
+    }
+  }
   constructor() { }
 
   ngOnInit(): void {
