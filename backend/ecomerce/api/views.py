@@ -4,10 +4,15 @@ from django.shortcuts import render
 from .models import Account, Direction,Image,Followers, Puntuation, Complaints, Currency, Category,Product,Image_Product, Status, Shipping_method, Payment_method ,Payment_data,Order,Product_order,Log, Action
 
 from rest_framework import serializers
-from .serializer import DirectionSerializer, AccountSerializer, ImageSerializer, FollowersSerializar, PuntuationSerializer, ComplaintsSerializaer, CurrencySerializaer, CategorySerializer, ProductSerializer, Image_ProductSerializer, StatusSerializer, ShipingSerializer, Payment_methodSerializer, Payment_dataSerializer, OrderSerializer, ProductOrderSerializer, LogSerializer, ActionSerializer
-
 from rest_framework import viewsets
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, ListModelMixin 
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework.authtoken.models import Token
+
+from .serializer import RegistrationSerializer, DirectionSerializer, AccountSerializer, ImageSerializer, FollowersSerializar, PuntuationSerializer, ComplaintsSerializaer, CurrencySerializaer, CategorySerializer, ProductSerializer, Image_ProductSerializer, StatusSerializer, ShipingSerializer, Payment_methodSerializer, Payment_dataSerializer, OrderSerializer, ProductOrderSerializer, LogSerializer, ActionSerializer
+
 
 class DirectionGenericView(viewsets.GenericViewSet, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, ListModelMixin):
     serializer_class = DirectionSerializer
@@ -51,6 +56,23 @@ class AccountGenericView(viewsets.GenericViewSet, CreateModelMixin, RetrieveMode
 
     def delete(self, request, id = None):
         return self.destroy(request, id)
+
+#Registro de usuarios
+@api_view(['POST',])
+def registro_view(request):
+    if request.method == 'POST':
+        serializer = RegistrationSerializer(data=request.data)
+        data = {}
+        if serializer.is_valid():
+            account = serializer.save()
+            data['response'] = 'Nuevo Usuario registrado satisfactoriamente'
+            data['email'] = account.email
+            data['first_name']  = account.first_name
+            token = Token.objects.get(user=account).key
+            data['token'] = token
+        else:
+            data = serializer.errors
+        return Response(data)
 
 class ImageGenericView(viewsets.GenericViewSet, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, ListModelMixin):
     serializer_class = ImageSerializer

@@ -2,9 +2,16 @@ from django.db import models
 from django.utils.timezone import now
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
-# Create your models here.
+
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
+
 
 import uuid
+
+# Create your models here.
 
 def images_directory_path(instance, filename):
     return '/'.join(['profile_img', str(uuid.uuid4().hex + "." + filename.split(".")[-1])])
@@ -148,6 +155,11 @@ class Account(AbstractBaseUser):
 
     def get_full_name(self):
         return self.first_name + ' ' + self.last_name
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)        
 
 
 class Followers(models.Model):

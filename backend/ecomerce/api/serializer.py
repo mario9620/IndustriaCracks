@@ -14,6 +14,35 @@ class AccountSerializer(serializers.ModelSerializer):
         fields= '__all__'
         read_only_fields = ('date_joined','last_login')
 
+class RegistrationSerializer(serializers.ModelSerializer):
+    confirm_password = serializers.CharField(style={'input_type': 'password'}, write_only=True)
+
+    class Meta:
+        model = Account
+        fields = ['first_name', 'last_name', 'email', 'phone_number', 'birth_date', 'password', 'confirm_password']
+        extra_kwargs = {
+            'password': {'write_only':True}
+        }
+
+    def save(self):
+        account = Account(
+            email = self.validated_data['email'],
+            first_name = self.validated_data['first_name'],
+            last_name = self.validated_data['last_name'],
+            birth_date = self.validated_data['birth_date']
+        )
+
+        password = self.validated_data['password']
+        confirm_password = self.validated_data['confirm_password']
+
+        if password != confirm_password:
+            raise serializers.ValidationError({'password':'Las contraseñas no coinciden'})
+        account.set_password(password)
+        account.save()
+
+        return account
+
+
 class ImageSerializer(serializers.ModelSerializer):
     class Meta():
         model = Image
