@@ -41,8 +41,7 @@ class AccountManager(BaseUserManager):
             last_name = last_name,
             phone_number = phone_number,
             birth_date = birth_date,
-            user_img = Image.objects.get(pk = 1),
-            cover_img = Image.objects.get(pk = 1)
+            
         )
         user.set_password(password)
         user.save(using=self._db)
