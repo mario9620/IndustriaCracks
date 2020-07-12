@@ -1,0 +1,54 @@
+.sidenav {
+  height: 100%;
+  width: 18%;
+  /* position: fixed; */
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.columnas {
+  /* border: 0.2px solid rgb(201, 201, 201); */
+  border-bottom: 1px solid rgb(218, 210, 210);
+  border-right: 1px solid rgb(218, 210, 210);
+}
+
+.contenedor-img {
+  height: 200px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.contenedor-desc {
+  text-align: center;
+}
+
+.label-desc {
+  margin: 0px;
+}
+
+.estilo-img {
+
+  height: 95%;
+  width: 90%;
+}
+
+
+
+.barra-busqueda {
+  border: 1px solid #ffca28;
+}
+
+.icono-buscar {
+  border: 1px solid #ffca28;
+  background-color: #ffca28;
+  border-radius: 0px 13px 13px 0px;
+}
+
+.div-busqueda {
+  margin-bottom: 2%;
+  width: 70%;
+}
