@@ -45,6 +45,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         return account
 
 
+    
 class ImageSerializer(serializers.ModelSerializer):
     class Meta():
         model = Image

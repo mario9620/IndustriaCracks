@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from django.contrib.auth import authenticate
 # Create your views here.
 from .models import Account, Direction,Image,Followers, Puntuation, Complaints, Currency, Category,Product,Image_Product, Status, Shipping_method, Payment_method ,Payment_data,Order,Product_order,Log, Action
 
@@ -10,6 +10,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
+from rest_framework.views import APIView
 
 from .serializer import RegistrationSerializer, DirectionSerializer, AccountSerializer, ImageSerializer, FollowersSerializar, PuntuationSerializer, ComplaintsSerializaer, CurrencySerializaer, CategorySerializer, ProductSerializer, Image_ProductSerializer, StatusSerializer, ShipingSerializer, Payment_methodSerializer, Payment_dataSerializer, OrderSerializer, ProductOrderSerializer, LogSerializer, ActionSerializer
 
@@ -74,6 +75,33 @@ def registro_view(request):
             data = serializer.errors
         return Response(data)
 
+class LoginAuthToken(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def post(self, request):
+        data = {}
+
+        email = request.POST.get('username')
+        password = request.POST.get('password')
+        account = authenticate(email=email, password=password)
+        
+        if account:
+            try:
+                token = Token.objects.get(user=account)
+            except Token.DoesNotExist:
+                token = Token.objects.create(user=account)
+			
+            data['response'] = 'Logeado con exito.'
+            data['pk'] = account.pk
+            data['email'] = email
+            data['token'] = token.key
+        else:
+            data['response'] = 'Error'
+            data['error_message'] = 'Credenciales no validas'
+        
+        return Response(data)
+    
 class ImageGenericView(viewsets.GenericViewSet, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, ListModelMixin):
     serializer_class = ImageSerializer
     queryset = Image.objects.all()
