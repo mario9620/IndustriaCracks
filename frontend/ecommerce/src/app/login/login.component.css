@@ -57,3 +57,7 @@
     text-decoration:none;
     color:#fff;
 }
+.login-form-1 a,.login-form-2 a{
+    text-align: center !important;
+    margin-bottom:12%;
+}

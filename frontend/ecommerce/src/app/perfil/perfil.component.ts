@@ -7,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PerfilComponent implements OnInit {
 
+  nombre = 'Isaac';
+  apellido = 'Magaña';
+  imageperfil = 'assets/icons/baner.png';
+  imageportada = 'assets/icons/img.png';
   constructor() { }
 
   ngOnInit(): void {
