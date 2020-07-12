@@ -3,7 +3,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
 
-from .views import registro_view, LoginAuthToken, DirectionGenericView, AccountGenericView, ImageGenericView, FollowGenericView, PuntuationGenericView, ComplaintsGenericView, CurrencyGenericView, CategoryGenericView, ProductGenericView, Image_productGenericView, StatusGenericView, ShipingGenericView, Payment_MethodGenericView, Payment_dataGenericView, OrderGenericView, Product_orderGenericView, LogGenericView, ActionGenericView
+from .views import registro_view, logout_view, LoginAuthToken, DirectionGenericView, AccountGenericView, ImageGenericView, FollowGenericView, PuntuationGenericView, ComplaintsGenericView, CurrencyGenericView, CategoryGenericView, ProductGenericView, Image_productGenericView, StatusGenericView, ShipingGenericView, Payment_MethodGenericView, Payment_dataGenericView, OrderGenericView, Product_orderGenericView, LogGenericView, ActionGenericView
 
 router = DefaultRouter()
 router.register('direction', DirectionGenericView, basename='direction')
@@ -29,6 +29,7 @@ router.register('log', LogGenericView, basename='log')
 urlpatterns = [
     path('auth/register', registro_view, name='register'),
     path('auth/login', LoginAuthToken.as_view(), name='login'),
+    path('auth/logout', logout_view, name='logout'),
 ]
 
 urlpatterns += [

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, logout
 # Create your views here.
 from .models import Account, Direction,Image,Followers, Puntuation, Complaints, Currency, Category,Product,Image_Product, Status, Shipping_method, Payment_method ,Payment_data,Order,Product_order,Log, Action
 
@@ -74,6 +74,15 @@ def registro_view(request):
         else:
             data = serializer.errors
         return Response(data)
+
+@api_view(['POST',])
+def logout_view(request):
+    data = {}
+    logout(request)
+    data['response'] = 'Cierre de sesion satisfactoria'
+
+    return Response(data)
+
 
 class LoginAuthToken(APIView):
     authentication_classes = []
