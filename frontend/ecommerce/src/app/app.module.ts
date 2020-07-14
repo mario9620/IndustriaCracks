@@ -11,6 +11,7 @@ import { PerfilComponent } from './perfil/perfil.component';
 import { ComprasComponent } from './compras/compras.component';
 
 import { InicioComponent } from './inicio/inicio.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { InicioComponent } from './inicio/inicio.component';
     NavbarComponent,
     LoginComponent,
     PerfilComponent,
-    InicioComponent
+    InicioComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
