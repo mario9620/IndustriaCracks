@@ -10,13 +10,16 @@ import { PerfilComponent } from './perfil/perfil.component';
 
 import { ComprasComponent } from './compras/compras.component';
 
+import { InicioComponent } from './inicio/inicio.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     LoginComponent,
-    PerfilComponent
+    PerfilComponent,
+    InicioComponent
   ],
   imports: [
     BrowserModule,
